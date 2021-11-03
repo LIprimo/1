@@ -1,0 +1,61 @@
+package assignment1;
+import java.sql.*; 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class student {
+
+	public static void main(String[] args) throws SQLException { 
+
+		String driver = "com.mysql.cj.jdbc.Driver";
+
+       String url = "jdbc:mysql://127.0.0.1:3306/assignment1?&useSSL=false&serverTimezone=UTC";
+       String username = "root";
+        String password = "123";
+        Connection conn = null;
+
+        try{
+            Class.forName(driver);
+            conn=DriverManager.getConnection(url,username,password);
+            if(!conn.isClosed())
+            System.out.println("The database connection is successful!");
+            Statement Statement=conn.createStatement();
+            String sql="select * from student" ;
+            ResultSet rs=Statement.executeQuery(sql);
+             System.out.println("---------------------------");
+             System.out.println("The execution result is as follows:");  
+             System.out.println("-------------------------------");  
+             System.out.println("ID" + "\t" + "Name"+"\t"+"Department"+"\t");  
+             System.out.println("---------------------------");  
+             String ID=null;
+             String Name=null;
+             String Department=null;
+             while(rs.next()){ 
+                 ID=rs.getString("ID");
+                Name=rs.getString("Name");
+                Department=rs.getString("Department");
+                System.out.println(ID+"\t"+Name+"\t"+Department+"\t");
+             }
+             rs.close();
+             conn.close();
+         }
+         catch(ClassNotFoundException e){
+        System.out.println("The database driver failed to load!");
+        e.printStackTrace();
+         }
+        catch(SQLException e1){
+         e1.printStackTrace();
+        }
+        catch(Exception e2){
+        e2.printStackTrace();
+        }
+        finally{
+             System.out.println("---------------------------");  
+            System.out.println("The database connection is successful!");
+        }
+        }
+        }
